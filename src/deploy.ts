@@ -41,6 +41,7 @@ export type ProductionSuccessResult = {
 };
 
 export type DeployConfig = {
+  services?: string;
   projectId: string;
   expires: string;
   channelId: string;
@@ -48,6 +49,7 @@ export type DeployConfig = {
 };
 
 export type ProductionDeployConfig = {
+  services?: string;
   projectId: string;
   target?: string;
 };
@@ -144,10 +146,14 @@ export async function deployProductionSite(
   gacFilename,
   productionDeployConfig: ProductionDeployConfig
 ) {
-  const { projectId, target } = productionDeployConfig;
+  const { services, projectId, target } = productionDeployConfig;
 
   const deploymentText = await execWithCredentials(
-    ["deploy", "--only", `hosting${target ? ":" + target : ""}`],
+    [
+      "deploy",
+      "--only",
+      `hosting${target ? ":" + target : ""}${services ? "," + services : ""}`,
+    ],
     projectId,
     gacFilename
   );

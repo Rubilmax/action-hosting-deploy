@@ -44,6 +44,7 @@ const googleApplicationCredentials = getInput("firebaseServiceAccount", {
   required: true,
 });
 const configuredChannelId = getInput("channelId");
+const services = getInput("services");
 const isProductionDeploy = configuredChannelId === "live";
 const token = process.env.GITHUB_TOKEN || getInput("repoToken");
 const octokit = token ? getOctokit(token) : undefined;
@@ -89,6 +90,7 @@ async function run() {
     if (isProductionDeploy) {
       startGroup("Deploying to production site");
       const deployment = await deployProductionSite(gacFilename, {
+        services,
         projectId,
         target,
       });
@@ -114,6 +116,7 @@ async function run() {
 
     startGroup(`Deploying to Firebase preview channel ${channelId}`);
     const deployment = await deployPreview(gacFilename, {
+      services,
       projectId,
       expires,
       channelId,
