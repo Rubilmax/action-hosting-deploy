@@ -116,7 +116,6 @@ async function run() {
 
     startGroup(`Deploying to Firebase preview channel ${channelId}`);
     const deployment = await deployPreview(gacFilename, {
-      services,
       projectId,
       expires,
       channelId,

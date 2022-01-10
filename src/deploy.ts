@@ -41,7 +41,6 @@ export type ProductionSuccessResult = {
 };
 
 export type DeployConfig = {
-  services?: string;
   projectId: string;
   expires: string;
   channelId: string;
